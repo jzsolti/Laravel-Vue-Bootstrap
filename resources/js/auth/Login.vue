@@ -96,13 +96,14 @@ export default {
     methods: {
         submitLogin() {
             this.disabled = true;
-            console.log(this.form);
+            
             axios.get('/sanctum/csrf-cookie')
                 .then(() => {
                     return axios.post('login', this.form);
                 }).then((response) => {
 
                     if ('logged_in' in response.data) {
+                        localStorage.setItem('isAuthenticated', 1)
                         this.$store.commit('login')
 
                         //redirect 

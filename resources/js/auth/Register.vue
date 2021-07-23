@@ -14,7 +14,7 @@
                         <form method="POST" @submit.prevent="onSubmit">
     
                             <div class="form-group">
-                                <label for="email">Name</label>
+                                <label for="name">Name</label>
                                 <input v-model.trim="form.name" type="text" class="form-control" :class="inputClass('name')" />
                                 <div class="invalid-feedback" v-if="errors.name">
                                     {{ errors.name[0] }}
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
     
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label for="password">Password</label>
                                 <input v-model.trim="form.password" type="password" class="form-control" :class="inputClass('password')" />
                                 <div class="invalid-feedback" v-if="errors.password">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
     
-                            <div class="form-group ">
+                            <div class="form-group">
                                 <label for="password">password_confirmation</label>
                                 <input v-model.trim="form.password_confirmation" type="password" class="form-control" />
                             </div>

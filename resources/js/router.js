@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from './modules/Home.vue';
 import Articles from './modules/Articles.vue';
+import Article from './modules/Article.vue';
 import Login from './auth/Login.vue';
 import Register from './auth/Register.vue';
 import ResetPassword from './auth/ResetPassword.vue';
@@ -87,6 +88,7 @@ const routes = [
             else next()
         }
     },
+
 ];
 
 const router = createRouter({
