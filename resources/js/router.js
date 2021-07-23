@@ -24,6 +24,11 @@ const routes = [
         component: Articles
     },
     {
+        name: 'article',
+        path: '/articles/:id',
+        component: Article
+    },
+    {
         name: 'login',
         path: '/login',
         component: Login,
