@@ -3,16 +3,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">User Account</div>
+                    <div class="card-header d-flex justify-content-between">
+                     <span>User Account</span> <span>Created: {{created}}</span>
+                     </div>
     
                     <div class="card-body">
-                        <div className="alert alert-success" v-if="status">
-                            A fresh verification link has been sent to your email address. Check your email for a verification link.
-                        </div>
     
                         <form method="POST" @submit.prevent="onSubmit">
-
-                       
     
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -47,8 +44,8 @@
                                 <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
     
                                 <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                            </button>
+                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+                                                            </button>
                             </div>
     
                         </form>
@@ -60,12 +57,24 @@
 </template>
 
 <script>
+import FormHelper from '../FormHelper.js';
+import Swal from 'sweetalert2';
 export default {
-
+    mounted() {
+        axios.get('user-account/get-user')
+            .then((response) => {
+                this.form.name = response.data.name;
+                this.form.email = response.data.email;
+                this.created = response.data.created;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    },
     data() {
         return {
             disabled: false,
-            status: false,
+            created: '',
             form: {
                 name: '',
                 email: '',
@@ -78,13 +87,16 @@ export default {
     methods: {
         onSubmit() {
             this.disabled = true;
-            axios.post('register', this.form)
+
+            axios.post('user-account/update', this.form)
                 .then((response) => {
                     if ('success' in response.data) {
-                        this.resetForm()
+                        this.errors = {};
+                        this.disabled = false;
+
+                        Swal.fire({icon: 'success',title: 'Updated',timer: 1000 });
                     }
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     this.disabled = false;
                     if (error.response && error.response.status === 422) {
                         this.errors = error.response.data.errors;
@@ -93,14 +105,9 @@ export default {
                     }
                 });
         },
+
         inputClass(inputName) {
-            if (Object.keys(this.errors).length === 0) {
-                return '';
-            } else if (inputName in this.errors) {
-                return 'is-invalid';
-            } else {
-                return 'is-valid';
-            }
+            return FormHelper.inputClass(inputName, this.errors)
         },
         resetForm() {
             this.status = true;
