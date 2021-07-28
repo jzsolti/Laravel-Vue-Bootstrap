@@ -120,7 +120,6 @@ export default {
         }
     },
     mounted() {
-
         axios.get(`labels`)
             .then((response) => {
                 this.labels = response.data.data;
