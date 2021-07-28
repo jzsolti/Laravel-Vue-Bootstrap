@@ -28,8 +28,8 @@ class ArticleRequest extends FormRequest
             'lead' => ['required', 'string', 'max:500'],
             'content' => ['required', 'string', 'max:50000'],
             'image' => ['nullable', 'image'],
-            'article_labels' => ['nullable', 'array'],
-            'article_labels.*' => ['exists:App\Models\Label,id']
+            'labels' => ['nullable', 'array'],
+            'labels.*' => ['exists:App\Models\Label,id']
         ];
     }
 }

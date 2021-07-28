@@ -17,6 +17,9 @@
                 <li class="nav-item">
                     <router-link to="/user/account" class="nav-item nav-link" v-if="this.$store.state.isAuthenticated">Account</router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/user/articles" class="nav-item nav-link" v-if="this.$store.state.isAuthenticated">My Articles</router-link>
+                </li>
                  <li class="nav-item">
                     <router-link to="/logout" class="nav-item nav-link" v-if="this.$store.state.isAuthenticated">Logout</router-link>
                 </li>
