@@ -7,11 +7,11 @@
                         <div class="d-flex justify-content-between align-self-center">
                             <span>{{ column.name }}</span>
                             <span>
-                                                            <font-awesome-icon icon="arrow-down" 
-                                                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
-                                                            <font-awesome-icon icon="arrow-up" 
-                                                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
-                                                       </span>
+                                                                    <font-awesome-icon icon="arrow-down" 
+                                                                    v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
+                                                                    <font-awesome-icon icon="arrow-up" 
+                                                                    v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
+                                                               </span>
                         </div>
                     </th>
                 </tr>
@@ -31,17 +31,17 @@
             <ul class="pagination">
                 <li class="page-item">
                     <button class="page-link" :disabled="1 === entities.meta.current_page" @click="changePage(entities.meta.current_page - 1)">
-                                                                Previous
-                                                            </button>
+                                                                        Previous
+                                                                    </button>
                 </li>
-                <li v-for="page in pageNumbers" class="page-item" :class="{ 'page-item': (page === entities.meta.current_page)}" :key="page">
+                <li v-for="page in pageNumbers" class="page-item" :class="{ 'active': (page === entities.meta.current_page)}" :key="page">
                     <button class="page-link" @click="changePage(page)">{{page}}</button>
                 </li>
     
                 <li class="page-item">
                     <button class="page-link" :disabled="entities.meta.last_page === entities.meta.current_page" @click="changePage(entities.meta.current_page + 1)">
-                                                                Next
-                                                            </button>
+                                                                        Next
+                                                                    </button>
                 </li>
                 <span class="pt-5"> &nbsp; <i>Displaying {{entities.data.length}} of {{entities.meta.total}} entries.</i></span>
             </ul>
@@ -77,32 +77,35 @@ export default {
             first_page: 1,
             current_page: 1,
             sorted_column: this.sortedColumn,
-            offset: 4,
+            offset: 0,
             order: 'desc'
         }
     },
     computed: {
         // a computed getter
         pageNumbers() {
-
             if (!this.entities.meta.to) {
                 return [];
             }
 
-
             let from = 1;
-            from = this.entities.meta.current_page - this.offset;
+            if (this.offset > 0) {
+                from = this.entities.meta.current_page - this.offset;
+            }
 
             if (from < 1) {
                 from = 1;
             }
-            let to = from + (this.offset * 2);
+
+            let to = this.entities.meta.last_page;
+
+            if (this.offset > 0) {
+                to = from + (this.offset * 2);
+            }
+
             if (to >= this.entities.meta.last_page) {
                 to = this.entities.meta.last_page;
             }
-
-            //console.log(from);
-            //console.log(to);
 
             let pagesArray = [];
             for (let page = from; page <= to; page++) {

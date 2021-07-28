@@ -23,9 +23,6 @@ import Datatable from '../components/Datatable.vue';
 
 export default {
     components: { Datatable },
-    mounted() {
-
-    },
     data() {
         return {
             loaded: false,
@@ -35,11 +32,6 @@ export default {
                 { name: "lead", label: "Lead" },
                 { name: "created_at", label: "Created" },
             ]
-        }
-    },
-    methods: {
-        onSubmit() {
-            // this.disabled = true;
         }
     }
 }

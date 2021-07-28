@@ -9,12 +9,14 @@ require('./bootstrap')
 import App from './layouts/App.vue'
 import axios from 'axios'
 import router from './router'
-/* fortawesome */
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add( faArrowDown, faArrowUp)
-/* / fortawesome */
+
+
+
 const app = createApp(App)
 axios.defaults.withCredentials = true;
 axios.defaults.headers = { 'Content-Type': 'application/json' };
@@ -24,5 +26,6 @@ app.config.globalProperties.$axios = axios;
 app.config.productionTip = false;
 app.use(router)
 app.use(store)
+
 app.component('font-awesome-icon', FontAwesomeIcon)
 app.mount('#app')
