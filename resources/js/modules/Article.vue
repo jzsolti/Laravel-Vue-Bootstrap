@@ -19,7 +19,7 @@ export default {
         Loading
     },
     mounted() {
-console.log( this.$route.params.id );
+//console.log( this.$route.params.id );
 
     },
     data() {
