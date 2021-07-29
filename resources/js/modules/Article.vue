@@ -13,7 +13,20 @@
 </template>
 
 <script>
+import Loading from '../components/Loading.vue';
 export default {
-    
+    componnets: {
+        Loading
+    },
+    mounted() {
+console.log( this.$route.params.id );
+
+    },
+    data() {
+        return {
+            loaded: false,
+            article: null
+        }
+    },
 }
 </script>
