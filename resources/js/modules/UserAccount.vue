@@ -4,14 +4,14 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                     <span>User Account</span> <span>Created: {{created}}</span>
-                     </div>
+                        <span>User Account</span> <span class="badge bg-info text-dark">Created: {{created}}</span>
+                    </div>
     
                     <div class="card-body">
     
                         <form method="POST" @submit.prevent="onSubmit">
     
-                            <div class="form-group">
+                            <div class="form-group  mb-3">
                                 <label for="name">Name</label>
                                 <input v-model.trim="form.name" type="text" class="form-control" :class="inputClass('name')" />
                                 <div class="invalid-feedback" v-if="errors.name">
@@ -19,7 +19,7 @@
                                 </div>
                             </div>
     
-                            <div class="form-group">
+                            <div class="form-group  mb-3">
                                 <label for="email">E-Mail</label>
                                 <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" />
                                 <div class="invalid-feedback" v-if="errors.email">
@@ -27,7 +27,7 @@
                                 </div>
                             </div>
     
-                            <div class="form-group">
+                            <div class="form-group  mb-3">
                                 <label for="password">Password</label>
                                 <input v-model.trim="form.password" type="password" class="form-control" :class="inputClass('password')" />
                                 <div class="invalid-feedback" v-if="errors.password">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
     
-                            <div class="form-group">
+                            <div class="form-group  mb-3">
                                 <label for="password">password_confirmation</label>
                                 <input v-model.trim="form.password_confirmation" type="password" class="form-control" />
                             </div>
@@ -44,8 +44,8 @@
                                 <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
     
                                 <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                                            </button>
+                                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+                                                                                    </button>
                             </div>
     
                         </form>
@@ -58,6 +58,7 @@
 
 <script>
 import FormHelper from '../FormHelper.js';
+
 import Swal from 'sweetalert2';
 export default {
     mounted() {
@@ -94,7 +95,7 @@ export default {
                         this.errors = {};
                         this.disabled = false;
 
-                        Swal.fire({icon: 'success',title: 'Updated',timer: 1000 });
+                        Swal.fire({ icon: 'success', title: 'Updated', timer: 1000 });
                     }
                 }).catch((error) => {
                     this.disabled = false;
@@ -105,7 +106,6 @@ export default {
                     }
                 });
         },
-
         inputClass(inputName) {
             return FormHelper.inputClass(inputName, this.errors)
         },
@@ -120,6 +120,7 @@ export default {
                 password_confirmation: ''
             }
         }
+        
     }
 }
 </script>

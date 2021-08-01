@@ -1,34 +1,58 @@
 <template>
     <div class="container">
         <header>
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <router-link to="/" class="nav-item nav-link">Home</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/articles" class="nav-item nav-link">Articles</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/login" class="nav-item nav-link" v-if="!this.$store.state.isAuthenticated">Login</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/register" class="nav-item nav-link" v-if="!this.$store.state.isAuthenticated">Register</router-link>
-                </li> 
-                <li class="nav-item">
-                    <router-link to="/user/account" class="nav-item nav-link" v-if="this.$store.state.isAuthenticated">Account</router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/user/articles" class="nav-item nav-link" v-if="this.$store.state.isAuthenticated">My Articles</router-link>
-                </li>
-                 <li class="nav-item">
-                    <router-link to="/logout" class="nav-item nav-link" v-if="this.$store.state.isAuthenticated">Logout</router-link>
-                </li>
-            </ul>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Laravel8-Vue3 <span class="badge bg-secondary">Bootstrap5</span></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <router-link to="/" class="nav-item nav-link">Home</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/articles" class="nav-item nav-link">Articles</router-link>
+                            </li>
+                            <li class="nav-item" v-if="!this.$store.state.isAuthenticated">
+                                <router-link to="/login" class="nav-item nav-link">Login</router-link>
+                            </li>
+                            <li class="nav-item" v-if="!this.$store.state.isAuthenticated">
+                                <router-link to="/register" class="nav-item nav-link">Register</router-link>
+                            </li>
+    
+                            <li class="nav-item dropdown" v-if="this.$store.state.isAuthenticated">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <font-awesome-icon icon="user" />
+                  </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <li>
+    
+                                        <router-link to="/user/account" class="dropdown-item">Account</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="/user/articles" class="dropdown-item">My Articles</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="/user/products" class="dropdown-item">My Products</router-link>
+                                    </li>
+                                    <li>
+                                        <router-link to="/logout" class="dropdown-item">Logout</router-link>
+                                    </li>
+                                </ul>
+                            </li>
+    
+    
+                        </ul>
+                    </div>
+                </div>
+            </nav>
         </header>
         <router-view> </router-view>
     </div>
 </template>
- 
+
 <script>
 export default {}
 </script>

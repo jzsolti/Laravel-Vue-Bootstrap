@@ -7,11 +7,11 @@
                         <div class="d-flex justify-content-between align-self-center">
                             <span>{{ column.name }}</span>
                             <span>
-                                                                    <font-awesome-icon icon="arrow-down" 
-                                                                    v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
-                                                                    <font-awesome-icon icon="arrow-up" 
-                                                                    v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
-                                                               </span>
+                            <font-awesome-icon icon="arrow-down" 
+                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
+                            <font-awesome-icon icon="arrow-up" 
+                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
+                        </span>
                         </div>
                     </th>
                 </tr>

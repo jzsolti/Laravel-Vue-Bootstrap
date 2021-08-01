@@ -4,6 +4,7 @@ import Articles from './modules/Articles.vue';
 import Article from './modules/Article.vue';
 import UserArticles from './modules/UserArticles.vue';
 import UserArticle from './modules/UserArticle.vue';
+import UserProducts from './modules/user_products/UserProducts.vue';
 import Login from './auth/Login.vue';
 import Register from './auth/Register.vue';
 import ResetPassword from './auth/ResetPassword.vue';
@@ -112,6 +113,15 @@ const routes = [
         name: 'user-articles',
         path: '/user/articles',
         component: UserArticles,
+        beforeEnter: (to, from, next) => {
+            if (!store.state.isAuthenticated) next({ name: 'login' })
+            else next()
+        }
+    },
+    {
+        name: 'user-products',
+        path: '/user/products',
+        component: UserProducts,
         beforeEnter: (to, from, next) => {
             if (!store.state.isAuthenticated) next({ name: 'login' })
             else next()

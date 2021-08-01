@@ -11,11 +11,9 @@ import axios from 'axios'
 import router from './router'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faArrowUp, faPlus, faMinus, faUser, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add( faArrowDown, faArrowUp)
-
-
+library.add( faArrowDown, faArrowUp, faPlus, faMinus, faUser, faEdit, faTrash)
 
 const app = createApp(App)
 axios.defaults.withCredentials = true;

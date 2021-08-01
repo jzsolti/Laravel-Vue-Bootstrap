@@ -45,4 +45,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{article}/delete-image', 'App\Http\Controllers\UserArticleController@deleteImage');
     });
 
+    Route::prefix('user/products')->group(function () {
+        Route::get('/', 'App\Http\Controllers\UserProductsController@index');
+        Route::get('/{product}', 'App\Http\Controllers\UserProductsController@article');
+        Route::post('/create', 'App\Http\Controllers\UserProductsController@create');
+        Route::put('/{product}', 'App\Http\Controllers\UserProductsController@update');
+    });
+
+    Route::prefix('categories')->group(function () {
+        Route::get('/', 'App\Http\Controllers\CategoriesController@index');
+        //Route::get('/{category}', 'App\Http\Controllers\UserProductsController@article');
+        Route::post('/create', 'App\Http\Controllers\CategoriesController@create');
+        Route::put('/{category}', 'App\Http\Controllers\CategoriesController@update');
+    });
+
 });
