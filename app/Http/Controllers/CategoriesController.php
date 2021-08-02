@@ -16,7 +16,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return  CategoryResource::collection( Category::orderBy('name')->get()    );
+        return  CategoryResource::collection(Category::orderBy('name')->get());
     }
 
 
@@ -28,8 +28,8 @@ class CategoriesController extends Controller
      */
     public function create(CategoryRequest $request)
     {
-        Category::create(['name' => $request->input('name')]);
-        return response(['created' => true]);
+        $category = Category::create(['name' => $request->input('name')]);
+        return response(['category' => new CategoryResource($category)]);
     }
 
     /**
@@ -51,8 +51,12 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Category $category)
     {
-        //
+        if ($category->products->count() !== 0) {
+            abort(404);
+        }
+        $category->delete();
+        return response(['deleted' => true]);
     }
 }

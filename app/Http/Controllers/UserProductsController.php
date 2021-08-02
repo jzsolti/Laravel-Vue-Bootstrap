@@ -25,7 +25,13 @@ class UserProductsController extends Controller
      */
     public function create(ProductRequest $request)
     {
-        $product = Product::create(['name' => $request->name]);
+        $product = Product::create([
+            'user_id' => $request->user()->id,
+            'name' => $request->input('name'),
+            'status' => $request->input('status')
+        ]);
+        $product->categories()->attach( $request->input('categories'));
+
         return response(['success' => true]);
     }
 

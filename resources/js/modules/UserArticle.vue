@@ -60,12 +60,15 @@
                                 </div>
                             </div>
     
-                            <div class="form-group mt-3">
-                                <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
+                            <div class="d-flex justify-content-between  mt-3">
+                                <button type="button" class="btn btn-danger" @click.prevent="delete">Delete </button>
+                                <div>
+                                    <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
     
-                                <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                                                                                            </button>
+                                    <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
+                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+                                            </button>
+                                </div>
                             </div>
     
                         </form>
@@ -194,6 +197,32 @@ export default {
                         console.error(error);
                     }
                 });
+        },
+        delete() {
+            Swal.fire({
+                title: '<strong class="text-danger">Are you sure?</strong>',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`user/articles/${this.articleId}`)
+                        .then((response) => {
+                            if ('deleted' in response.data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: `Article deleted`,
+                                    timer: 1000
+                                });
+                                this.$router.push(`/user/articles/`)
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            });
         },
         onFileChange(event) {
             let file = event.target.files[0];

@@ -16,9 +16,9 @@
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
             <button v-if="disabled" class="btn btn-primary" type="button" disabled="disabled">
-                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span> Sending...</span>
-                            </button>
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span> Sending...</span>
+                                    </button>
     
         </div>
     </form>
@@ -40,7 +40,10 @@ export default {
     watch: {
         // This would be called anytime the value of value changes
         category(newValue, oldValue) {
-            this.form.name = newValue.name;
+            this.resetForm();
+            if (newValue != null) {
+                this.form.name = newValue.name;
+            }
         }
     },
     methods: {
@@ -52,14 +55,15 @@ export default {
                 url: (this.category == null) ? 'categories/create' : `categories/${this.category.id}`,
                 data: this.form
             }).then((response) => {
-                if ('created' in response.data) {
+                if ('category' in response.data) {
                     this.errors = {};
                     this.disabled = false;
-                    this.$emit("categoryAdded")
-                } else if('updated' in response.data){
-this.errors = {};
+                    this.$emit("categoryAdded", response.data.category)
+
+                } else if ('updated' in response.data) {
+                    this.errors = {};
                     this.disabled = false;
-                    this.$emit("categoryUpdated",this.form)
+                    this.$emit("categoryUpdated", this.form)
                 }
             }).catch((error) => {
                 this.disabled = false;

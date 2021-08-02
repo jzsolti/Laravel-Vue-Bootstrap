@@ -25,6 +25,9 @@ class ProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'status' => ['required','in:1,0'],
+            'categories' => ['required', 'array'],
+            'categories.*' => ['exists:App\Models\Category,id']
         ];
     }
 }

@@ -9,7 +9,7 @@
                     <div class="col-md-6">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"> Count products: 0 </li>
-                            <li class="list-group-item"> Count categories: 0 </li>
+                            <li class="list-group-item"> Count categories: {{categories.length}} </li>
     
                         </ul>
                     </div>
@@ -33,10 +33,10 @@
                     <li v-for="category in categories" :key="category.id" class="list-group-item d-flex justify-content-between">
                         <div>{{category.name}}</div>
                         <div>
-                            <button type="button" @click="editCatetory( category)" class="btn btn-sm btn-success">
-                                    <font-awesome-icon icon="edit" /></button>
-                            <button type="button" @click="deleteCatetory( category.id)" class="btn btn-sm btn-danger">
-                                    <font-awesome-icon icon="trash" /></button>
+                            <button type="button" @click="editCatetory( category)" class="btn btn-sm btn-success ">
+                                            <font-awesome-icon icon="edit" /></button>
+                            <button type="button" @click="deleteCatetory( category)" class="btn btn-sm btn-danger ms-2">
+                                            <font-awesome-icon icon="trash" /></button>
                         </div>
                     </li>
                 </ul>
@@ -54,7 +54,7 @@
     <div class="modal fade" id="productFormModal" tabindex="-1" aria-labelledby="productFormModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <ProductForm />
+                <ProductForm :product="product" />
             </div>
         </div>
     </div>
@@ -65,6 +65,8 @@ import { computed } from 'vue'
 import { Modal } from 'bootstrap';
 import ProductForm from './Form.vue';
 import CategoryForm from '../categories/Form.vue';
+import ArrayHelper from '../../ArrayHelper.js';
+import Swal from 'sweetalert2';
 export default {
     components: { ProductForm, CategoryForm },
     mounted() {
@@ -82,17 +84,27 @@ export default {
             categories: [],
             categoryFormModal: null,
             productFormModal: null,
-            category: null // edit this category
+            category: null, // edit this category
+            product: null
         }
     },
+    provide() {
+    return {
+      categories: computed(() => this.categories)
+    }
+  },
     methods: {
         openCategoryFormModal() {
+            this.category = null;
             this.categoryFormModal.show();
         },
         openProductFormModal() {
+            this.product = null;
             this.productFormModal.show();
         },
-        categoryAdded() {
+        categoryAdded(newCategory) {
+            this.categories.push(newCategory);
+            this.categories = ArrayHelper.sortByString(this.categories, 'name');
             this.categoryFormModal.hide();
         },
         categoryUpdated(formData) {
@@ -106,6 +118,32 @@ export default {
             this.categoryFormModal.show();
         },
         deleteCatetory(category) {
+            Swal.fire({
+                title: '<strong class="text-danger">Are you sure?</strong>',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`categories/${category.id}`)
+                        .then((response) => {
+                            if ('deleted' in response.data) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: `Category deleted`,
+                                    timer: 1000
+                                });
+
+
+                                this.categories = this.categories.filter((categoryItem) => { return categoryItem.id != category.id })
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            });
 
         }
     }
