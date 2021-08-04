@@ -21,3 +21,7 @@ npm install
 2. php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 3. php artisan migrate
 4. app/Http/Kernel.php  
+
+### bootsrap5
+1. npm install bootstrap@next 
+2. npm install @popperjs/core --save-dev

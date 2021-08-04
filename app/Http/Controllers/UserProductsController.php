@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 
 class UserProductsController extends Controller
@@ -13,9 +14,12 @@ class UserProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query  = Product::where('user_id', $request->user()->id)->orderBy($request->column, $request->order);
+        $products = $query->paginate($request->per_page ?? 10);
+
+        return ProductResource::collection($products);
     }
 
     /**
@@ -36,48 +40,24 @@ class UserProductsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        if($product->user_id !== $request->user()->id){
+            abort(404);
+        }
+        $product->update([
+            'user_id' => $request->user()->id,
+            'name' => $request->input('name'),
+            'status' => $request->input('status')
+        ]);
+        $product->categories()->sync( $request->input('categories'));
+        return response(['success' => true]);
     }
 
     /**
