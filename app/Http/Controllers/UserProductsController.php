@@ -66,8 +66,12 @@ class UserProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request, Product $product)
     {
-        //
+        if($product->user_id !== $request->user()->id){
+            abort(404);
+        }
+        $product->delete();
+        return response(['success' => true]);
     }
 }

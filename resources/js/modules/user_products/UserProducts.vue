@@ -5,12 +5,12 @@
             <div class="card-header bg-primary"> My Products </div>
     
             <div class="card-body">
-                
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-primary me-3" @click="openProductFormModal">Product  <font-awesome-icon icon="plus" /> </button>
-                        <button type="button" class="btn btn-primary" @click="openCategoryFormModal"> Category  <font-awesome-icon icon="plus" /></button>
-                    </div>
-                
+    
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary me-3" @click="openProductFormModal">Product  <font-awesome-icon icon="plus" /> </button>
+                    <button type="button" class="btn btn-primary" @click="openCategoryFormModal"> Category  <font-awesome-icon icon="plus" /></button>
+                </div>
+    
             </div>
         </div>
     
@@ -18,27 +18,27 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-info"> Products </div>
-                    <Datatable @edit-product="editProduct" />
+                    <Datatable @edit-product="editProduct" @destroy-product="destroyProduct" ref="productsTable" />
                 </div>
     
             </div>
             <div class="col-md-4">
-
-             <div class="card">
-                    <div class="card-header bg-secondary text-white"> Categories  {{categories.length}} </div>
+    
+                <div class="card">
+                    <div class="card-header bg-secondary text-white"> Categories {{categories.length}} </div>
                     <ul class="list-group">
-                    <li v-for="category in categories" :key="category.id" class="list-group-item d-flex justify-content-between">
-                        <div>{{category.name}}</div>
-                        <div>
-                            <button type="button" @click="editCatetory( category)" class="btn btn-sm btn-success ">
-                                                    <font-awesome-icon icon="edit" /></button>
-                            <button type="button" @click="deleteCatetory( category)" class="btn btn-sm btn-danger ms-2">
-                                                    <font-awesome-icon icon="trash" /></button>
-                        </div>
-                    </li>
-                </ul>
+                        <li v-for="category in categories" :key="category.id" class="list-group-item d-flex justify-content-between">
+                            <div>{{category.name}}</div>
+                            <div>
+                                <button type="button" @click="editCatetory( category)" class="btn btn-sm btn-success ">
+                                                                            <font-awesome-icon icon="edit" /></button>
+                                <button type="button" @click="deleteCatetory( category)" class="btn btn-sm btn-danger ms-2">
+                                                                            <font-awesome-icon icon="trash" /></button>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                
+    
             </div>
         </div>
     </div>
@@ -86,11 +86,6 @@ export default {
             productFormModal: null,
             category: null, // edit this category
             product: null,
-        }
-    },
-    provide() {
-        return {
-            //categories: computed(() => this.categories)
         }
     },
     methods: {
@@ -147,11 +142,42 @@ export default {
 
         },
         productsChange() {
-console.log('productsChange');
+            this.$refs.productsTable.changePage(1);
+            this.productFormModal.hide();
         },
-        editProduct(product){
-             this.product = product;
+        editProduct(product) {
+            this.product = product;
             this.productFormModal.show();
+        },
+        destroyProduct(product) {
+
+
+            Swal.fire({
+                title: '<strong class="text-danger">Are you sure?</strong>',
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Yes',
+                denyButtonText: 'No',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`user/products/${product.id}`).then((response) => {
+
+                        if ('success' in response.data) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: `Product deleted`,
+                                timer: 1000
+                            });
+
+                            this.$refs.productsTable.changePage(1);
+                        }
+
+                    }).catch((error) => {
+                        console.error(error);
+                    });
+                }
+            });
+
         }
     }
 

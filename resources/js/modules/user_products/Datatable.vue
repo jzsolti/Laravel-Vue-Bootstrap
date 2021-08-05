@@ -3,30 +3,32 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                <th></th>
                     <th v-for="(column, index) in columns" @click="sortByColumn(column)" class="p-2">
                         <div class="d-flex justify-content-between align-self-center">
                             <span>{{ column.name }}</span>
                             <span>
-                            <font-awesome-icon icon="arrow-down" 
-                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
-                            <font-awesome-icon icon="arrow-up" 
-                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
-                        </span>
+                                <font-awesome-icon icon="arrow-down" 
+                                v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
+                                <font-awesome-icon icon="arrow-up" 
+                                v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
+                            </span>
                         </div>
                     </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(row, index) in entities.data">
-
-<td><button @click="edit(row)" type="button" class="btn btn-success btn-sm">edit</button></td>
-                
+    
                     <td v-for="(column, index) in columns">
                         <router-link :to="{ path: row[column.name] }" v-if="(typeof column.link !== 'undefined')">
                             Edit
                         </router-link>
                         <span v-else>{{ row[column.name ]}} </span>
+                    </td>
+                    <td>
+                        <button @click="$emit('editProduct', row)" type="button" class="btn btn-success btn-sm">edit</button>
+                        <button @click="$emit('destroyProduct', row)" type="button" class="btn btn-danger btn-sm ms-2">delete</button>
                     </td>
                 </tr>
             </tbody>
@@ -35,8 +37,8 @@
             <ul class="pagination">
                 <li class="page-item">
                     <button class="page-link" :disabled="1 === entities.meta.current_page" @click="changePage(entities.meta.current_page - 1)">
-                                                                        Previous
-                                                                    </button>
+                                                                            Previous
+                                                                        </button>
                 </li>
                 <li v-for="page in pageNumbers" class="page-item" :class="{ 'active': (page === entities.meta.current_page)}" :key="page">
                     <button class="page-link" @click="changePage(page)">{{page}}</button>
@@ -44,8 +46,8 @@
     
                 <li class="page-item">
                     <button class="page-link" :disabled="entities.meta.last_page === entities.meta.current_page" @click="changePage(entities.meta.current_page + 1)">
-                                                                        Next
-                                                                    </button>
+                                                                            Next
+                                                                        </button>
                 </li>
                 <span class="pt-5"> &nbsp; <i>Displaying {{entities.data.length}} of {{entities.meta.total}} entries.</i></span>
             </ul>
@@ -83,12 +85,12 @@ export default {
             sorted_column: "created_at",
             offset: 0,
             order: 'desc',
-             columns: [
+            columns: [
                 { name: "name", label: "Name" },
-                 { name: "status", label: "Status" },
+                { name: "status", label: "Status" },
                 { name: "created_at", label: "Created" },
             ],
-             url:"/user/products",
+            url: "/user/products",
         }
     },
     computed: {
@@ -157,9 +159,8 @@ export default {
             this.current_page = pageNumber;
             this.fetchEntities();
         },
-        edit(product){
-            this.$emit("editProduct", product)
-        }
+       
+        
     }
 }
 </script>

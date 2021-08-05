@@ -28,8 +28,8 @@
     
                 <ul class="list-group">
                     <li v-for="category in categories"  class="list-group-item d-flex justify-content-between">
-                        <input type="checkbox" :id="'category'+category.id" v-model="form.categories" :value="category.id" />
-                        <label :for="'category'+category.id" class="ml-2"> {{ category.name }}</label>
+                        <input type="checkbox" :id="'category-'+category.id" v-model="form.categories" :value="category.id" />
+                        <label :for="'category-'+category.id" class="ml-2"> {{ category.name }}</label>
                     </li>
                 </ul>
                 <div class="text-danger" v-if="errors.categories">
@@ -43,8 +43,8 @@
             <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
     
             <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                                                                                </button>
+                                                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+                                                                                            </button>
     
         </div>
     </form>
@@ -52,11 +52,11 @@
 
 <script>
 import FormHelper from '../../FormHelper.js';
+import Swal from 'sweetalert2';
+
 export default {
-    //inject: ['categories'],
     props: ['product','categories'],
     mounted() {
-
     },
     data() {
         return {
@@ -66,7 +66,6 @@ export default {
                 categories: []
             },
             errors: {},
-            //categories
         }
     },
     watch: {
@@ -76,11 +75,8 @@ export default {
             if (newValue != null) {
                 console.log(newValue);
                 this.form.name = newValue.name;
-                this.form.status = 1;
- //this.form.categories = ;
-
- console.log(newValue.categories);
-                this.form.categories = newValue.categories;
+                this.form.status = newValue.status;
+                this.form.categories = newValue.categories.map(category => category.id);
             }
         },
         categories(newValue, oldValue) {
@@ -92,9 +88,6 @@ export default {
 
             this.disabled = true;
 
-
-
-
             axios({
                 method: (this.product == null) ? 'post' : 'put',
                 url: (this.product == null) ? 'user/products/create' : `user/products/${this.product.id}`,
@@ -102,7 +95,13 @@ export default {
             }).then((response) => {
                 this.errors = {};
                 this.disabled = false;
+
                 if ('success' in response.data) {
+                    Swal.fire({
+                                    icon: 'success',
+                                    title: `Success`,
+                                    timer: 1000
+                                });
                     this.$emit("productsChange")
                 }
 
