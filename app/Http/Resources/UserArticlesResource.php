@@ -17,7 +17,6 @@ class UserArticlesResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'edit' => '/user/articles/edit/'.$this->id,
             'title' => $this->title,
             'lead' => Str::limit($this->lead, 20),
             'content' => $this->content,

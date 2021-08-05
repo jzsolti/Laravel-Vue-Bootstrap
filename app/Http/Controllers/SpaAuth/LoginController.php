@@ -78,7 +78,7 @@ class LoginController extends Controller
                 $response['email_verified'] = 1;
             }
         } else {
-            $response['not_logged_id'] = 1;
+            $response['not_logged_in'] = 1;
         }
 
         return response()->json($response);

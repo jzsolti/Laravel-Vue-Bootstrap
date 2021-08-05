@@ -8,7 +8,8 @@
                         <span><router-link to="/user/articles/create" class="">New article</router-link></span>
                     </div>
                     <div class="card-body">
-                        <Datatable :columns="columns" url="/user/articles" sortedColumn="created_at" />
+                        <Datatable :columns="columns" url="/user/articles" sortedColumn="created_at" 
+                        :links="[{ uri: '/user/articles/edit/', text: null, icon: 'edit', class:'btn btn-link btn-sm'}]" />
                     </div>
                 </div>
             </div>
@@ -27,7 +28,7 @@ export default {
         return {
             loaded: false,
             columns: [
-                { name: "edit", label: "Edit", orderable: false, link: true },
+                //{ name: "edit", label: "Edit", orderable: false, link: true },
                 { name: "title", label: "Title" },
                 { name: "lead", label: "Lead" },
                 { name: "created_at", label: "Created" },

@@ -18,7 +18,15 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-info"> Products </div>
-                    <Datatable @edit-product="editProduct" @destroy-product="destroyProduct" ref="productsTable" />
+                    <Datatable 
+                    url="/user/products" 
+                    sortedColumn="created_at" 
+                    :columns="columns" 
+                    :actionButtons="['edit','destroy']"
+                    @edit="editProduct" 
+                    @destroy="destroyProduct" 
+
+                    ref="productsTable" />
                 </div>
     
             </div>
@@ -31,9 +39,9 @@
                             <div>{{category.name}}</div>
                             <div>
                                 <button type="button" @click="editCatetory( category)" class="btn btn-sm btn-success ">
-                                                                            <font-awesome-icon icon="edit" /></button>
+                                                                                    <font-awesome-icon icon="edit" /></button>
                                 <button type="button" @click="deleteCatetory( category)" class="btn btn-sm btn-danger ms-2">
-                                                                            <font-awesome-icon icon="trash" /></button>
+                                                                                    <font-awesome-icon icon="trash" /></button>
                             </div>
                         </li>
                     </ul>
@@ -53,18 +61,17 @@
     <div class="modal fade" id="productFormModal" tabindex="-1" aria-labelledby="productFormModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <ProductForm :product="product" :categories="categories" @products-change="productsChange" />
+                <ProductForm :product="product" :categories="categories" @products-change="productsChange" ref="productForm" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { computed } from 'vue'
 import { Modal } from 'bootstrap';
 import ProductForm from './Form.vue';
 import CategoryForm from '../categories/Form.vue';
-import Datatable from './Datatable.vue';
+import Datatable from '../../components/Datatable.vue';
 import ArrayHelper from '../../ArrayHelper.js';
 import Swal from 'sweetalert2';
 export default {
@@ -86,15 +93,21 @@ export default {
             productFormModal: null,
             category: null, // edit this category
             product: null,
+            columns: [
+                { name: "name", label: "Name" },
+                { name: "status", label: "Status" },
+                { name: "created_at", label: "Created" },
+            ],
         }
     },
     methods: {
         openCategoryFormModal() {
             this.category = null;
+
             this.categoryFormModal.show();
         },
         openProductFormModal() {
-            this.product = null;
+            this.$refs.productForm.resetForm();
             this.productFormModal.show();
         },
         categoryAdded(newCategory) {

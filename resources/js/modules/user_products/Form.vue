@@ -43,8 +43,8 @@
             <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
     
             <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                                                                            </button>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+            </button>
     
         </div>
     </form>
@@ -53,6 +53,8 @@
 <script>
 import FormHelper from '../../FormHelper.js';
 import Swal from 'sweetalert2';
+
+
 
 export default {
     props: ['product','categories'],
@@ -63,6 +65,7 @@ export default {
             disabled: false,
             form: {
                 name: '',
+                status: null,
                 categories: []
             },
             errors: {},
@@ -93,9 +96,9 @@ export default {
                 url: (this.product == null) ? 'user/products/create' : `user/products/${this.product.id}`,
                 data: this.form
             }).then((response) => {
-                this.errors = {};
+                
                 this.disabled = false;
-
+this.resetForm();
                 if ('success' in response.data) {
                     Swal.fire({
                                     icon: 'success',
@@ -103,6 +106,8 @@ export default {
                                     timer: 1000
                                 });
                     this.$emit("productsChange")
+
+                    
                 }
 
             }).catch((error) => {
@@ -119,9 +124,14 @@ export default {
             return FormHelper.inputClass(inputName, this.errors)
         },
         resetForm() {
-            this.form.name = '';
-            this.form.categories = [],
+           
+            this.form = {
+                name: '',
+                status: null,
+                categories: []
+            };
                 this.errors = {};
+                
         }
     }
 }

@@ -7,22 +7,42 @@
                         <div class="d-flex justify-content-between align-self-center">
                             <span>{{ column.name }}</span>
                             <span>
-                            <font-awesome-icon icon="arrow-down" 
-                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
-                            <font-awesome-icon icon="arrow-up" 
-                            v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
-                        </span>
+                                        <font-awesome-icon icon="arrow-down" 
+                                        v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'desc'" />
+                                        <font-awesome-icon icon="arrow-up" 
+                                        v-if="(typeof column.orderable === 'undefined' || column.orderable === true) && column.name === this.sorted_column && this.order === 'asc'" />
+                                    </span>
                         </div>
                     </th>
+                    <th v-if="actionButtons.length > 0 || links.length > 0"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(row, index) in entities.data">
+    
                     <td v-for="(column, index) in columns">
-                        <router-link :to="{ path: row[column.name] }" v-if="(typeof column.link !== 'undefined')">
-                            Edit
+                        <span>{{ row[column.name ]}} </span>
+                    </td>
+                    <td v-if="links.length > 0" class="d-flex justify-content-around">
+    
+                        <router-link v-for="link in links" :to="{ path: link.uri+row.id }">
+                            
+                            <button type="button" :class="link.class">
+                            {{link.text}}
+                            <font-awesome-icon :icon="link.icon" v-if="link.icon"/>
+                            </button>
                         </router-link>
-                        <span v-else>{{ row[column.name ]}} </span>
+    
+                    </td>
+                    <td v-if="actionButtons.length > 0" class="d-flex justify-content-around">
+    
+                        <button v-if="actionButtons.includes('edit')" @click="$emit('edit', row)" type="button" class="btn btn-success btn-sm">
+                                <font-awesome-icon icon="edit" />
+                            </button>
+    
+                        <button v-if="actionButtons.includes('destroy')" @click="$emit('destroy', row)" type="button" class="btn btn-danger btn-sm">
+                                <font-awesome-icon icon="trash" />
+                            </button>
                     </td>
                 </tr>
             </tbody>
@@ -31,8 +51,8 @@
             <ul class="pagination">
                 <li class="page-item">
                     <button class="page-link" :disabled="1 === entities.meta.current_page" @click="changePage(entities.meta.current_page - 1)">
-                                                                        Previous
-                                                                    </button>
+                                                                                    Previous
+                                                                                </button>
                 </li>
                 <li v-for="page in pageNumbers" class="page-item" :class="{ 'active': (page === entities.meta.current_page)}" :key="page">
                     <button class="page-link" @click="changePage(page)">{{page}}</button>
@@ -40,8 +60,8 @@
     
                 <li class="page-item">
                     <button class="page-link" :disabled="entities.meta.last_page === entities.meta.current_page" @click="changePage(entities.meta.current_page + 1)">
-                                                                        Next
-                                                                    </button>
+                                                                                    Next
+                                                                                </button>
                 </li>
                 <span class="pt-5"> &nbsp; <i>Displaying {{entities.data.length}} of {{entities.meta.total}} entries.</i></span>
             </ul>
@@ -55,7 +75,19 @@ export default {
     props: {
         columns: Array,
         url: String,
-        sortedColumn: String
+        sortedColumn: String,
+        actionButtons: {
+            type: Array,
+            default: [],
+            validator(value) {
+                // The value must match one of these strings
+                return ['edit', 'destroy'].includes(value)
+            },
+        },
+        links: {
+            type: Array,
+            default: [],
+        }
     },
     mounted() {
         this.current_page = this.entities.meta.current_page;
