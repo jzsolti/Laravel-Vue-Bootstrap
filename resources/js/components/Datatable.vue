@@ -14,7 +14,8 @@
                                     </span>
                         </div>
                     </th>
-                    <th v-if="actionButtons.length > 0 || links.length > 0"></th>
+                    <th v-if="actionButtons.length > 0 "></th>
+                    <th v-if="links.length > 0"></th>
                 </tr>
             </thead>
             <tbody>
@@ -24,13 +25,10 @@
                         <span>{{ row[column.name ]}} </span>
                     </td>
                     <td v-if="links.length > 0" class="d-flex justify-content-around">
-    
-                        <router-link v-for="link in links" :to="{ path: link.uri+row.id }">
-                            
-                            <button type="button" :class="link.class">
+
+                        <router-link v-for="link in links" :to="{ path: link.uri+row.id }" :class="link.class">
                             {{link.text}}
                             <font-awesome-icon :icon="link.icon" v-if="link.icon"/>
-                            </button>
                         </router-link>
     
                     </td>

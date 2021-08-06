@@ -40,7 +40,7 @@
                             <div>
                                 <button type="button" @click="editCatetory( category)" class="btn btn-sm btn-success ">
                                                                                     <font-awesome-icon icon="edit" /></button>
-                                <button type="button" @click="deleteCatetory( category)" class="btn btn-sm btn-danger ms-2">
+                                <button v-if="category.products_count == 0" type="button" @click="deleteCatetory( category)" class="btn btn-sm btn-danger ms-2">
                                                                                     <font-awesome-icon icon="trash" /></button>
                             </div>
                         </li>
