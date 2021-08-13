@@ -7,7 +7,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Article;
 use App\Http\Resources\UserArticlesResource, App\Http\Resources\UserArticleResource;
-use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\ArticleRequest, App\Http\Requests\DatatableRequest;
 
 class UserArticleController extends Controller
 {
@@ -20,7 +20,7 @@ class UserArticleController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index(DatatableRequest $request)
     {
         $query  = Article::where('user_id', $request->user()->id)->orderBy($request->column, $request->order);
         $articles = $query->paginate($request->per_page ?? 10);

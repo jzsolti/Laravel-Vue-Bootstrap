@@ -10,6 +10,7 @@ class Label extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+    public $timestamps = false;
 
     public function articles(){
         return $this->belongsToMany('App\Models\Article');
