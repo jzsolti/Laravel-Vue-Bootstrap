@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{(articleId)? 'Edit article':'New article'}} </div>
+                    <div class="card-header">{{cardHeaderText}} </div>
     
                     <div class="card-body">
     
@@ -15,7 +15,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for='title'>Title</label>
-                                        <input v-model.trim="form.title" type="text" class="form-control" :class="inputClass('title')" />
+                                        <input v-model.trim="form.title" type="text" class="form-control" :class="inputClass('title')" name="title" />
                                         <div class="invalid-feedback" v-if="errors.title">
                                             {{ errors.title[0] }}
                                         </div>
@@ -23,7 +23,7 @@
     
                                     <div class="form-group">
                                         <label for='lead'>Lead in</label>
-                                        <textarea v-model="form.lead" class="form-control" :class="inputClass('lead')"></textarea>
+                                        <textarea v-model="form.lead" class="form-control" :class="inputClass('lead')" name="lead"></textarea>
                                         <div class="invalid-feedback" v-if="errors.lead">
                                             {{ errors.lead[0] }}
                                         </div>
@@ -31,7 +31,7 @@
     
                                     <div class="form-group">
                                         <label for='content'>Content</label>
-                                        <textarea v-model="form.content" class="form-control" :class="inputClass('content')"></textarea>
+                                        <textarea v-model="form.content" class="form-control" :class="inputClass('content')" name="content"></textarea>
                                         <div class="invalid-feedback" v-if="errors.content">
                                             {{ errors.content[0] }}
                                         </div>
@@ -61,13 +61,13 @@
                             </div>
     
                             <div class="d-flex justify-content-between  mt-3">
-                                <button type="button" class="btn btn-danger" @click.prevent="delete">Delete </button>
+                                <button v-if="articleId != null" type="button" class="btn btn-danger" @click.prevent="delete">Delete </button>
                                 <div>
-                                    <button type="submit" class="btn btn-primary" v-if="!disabled">Save </button>
+                                    <button type="submit" class="btn btn-primary" v-if="!disabled">Save</button>
     
                                     <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                            </button>
+                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+                                                </button>
                                 </div>
                             </div>
     
@@ -147,6 +147,11 @@ export default {
             errors: {}
         }
     },
+    computed: {
+        cardHeaderText() {
+            return (this.articleId != null) ? 'Edit article' : 'New article'
+        }
+    },
     methods: {
         onSubmit() {
             this.disabled = true;
@@ -165,6 +170,7 @@ export default {
                 formData.append('_method', 'put');
             }
 
+
             axios.post(this.action, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then((response) => {
                     this.disabled = false;
@@ -175,7 +181,7 @@ export default {
                             title: `New article created`,
                             timer: 1000
                         });
-
+this.articleId = response.data.id;
                         this.$router.push(`/user/articles/edit/${response.data.id}`)
                     }
 

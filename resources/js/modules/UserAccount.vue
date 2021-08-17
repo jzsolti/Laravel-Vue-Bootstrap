@@ -13,7 +13,7 @@
     
                             <div class="form-group  mb-3">
                                 <label for="name">Name</label>
-                                <input v-model.trim="form.name" type="text" class="form-control" :class="inputClass('name')" />
+                                <input v-model.trim="form.name" type="text" class="form-control" :class="inputClass('name')" name="name"/>
                                 <div class="invalid-feedback" v-if="errors.name">
                                     {{ errors.name[0] }}
                                 </div>
@@ -21,7 +21,7 @@
     
                             <div class="form-group  mb-3">
                                 <label for="email">E-Mail</label>
-                                <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" />
+                                <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" name="email"/>
                                 <div class="invalid-feedback" v-if="errors.email">
                                     {{ errors.email[0] }}
                                 </div>

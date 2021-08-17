@@ -15,7 +15,7 @@
     
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input v-model.trim="form.name" type="text" class="form-control" :class="inputClass('name')" />
+                                <input v-model.trim="form.name" type="text" class="form-control" :class="inputClass('name')" name="name" />
                                 <div class="invalid-feedback" v-if="errors.name">
                                     {{ errors.name[0] }}
                                 </div>
@@ -23,7 +23,7 @@
     
                             <div class="form-group">
                                 <label for="email">E-Mail</label>
-                                <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" />
+                                <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" name="email" />
                                 <div class="invalid-feedback" v-if="errors.email">
                                     {{ errors.email[0] }}
                                 </div>
@@ -31,19 +31,19 @@
     
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input v-model.trim="form.password" type="password" class="form-control" :class="inputClass('password')" />
+                                <input v-model.trim="form.password" type="password" class="form-control" :class="inputClass('password')" name="password" />
                                 <div class="invalid-feedback" v-if="errors.password">
                                     {{ errors.password[0] }}
                                 </div>
                             </div>
     
                             <div class="form-group">
-                                <label for="password">password_confirmation</label>
-                                <input v-model.trim="form.password_confirmation" type="password" class="form-control" />
+                                <label for="password">password confirmation</label>
+                                <input v-model.trim="form.password_confirmation" type="password" class="form-control" name="password_confirmation" />
                             </div>
     
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary" v-if="!disabled">Registration </button>
+                                <button type="submit" class="btn btn-primary" v-if="!disabled">Save</button>
     
                                 <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>

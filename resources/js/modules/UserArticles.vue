@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <span>My Articles</span>
-                        <span><router-link to="/user/articles/create" class="">New article</router-link></span>
+                        <span><router-link to="/user/articles/create">New article</router-link></span>
                     </div>
                     <div class="card-body">
                         <Datatable :columns="columns" url="/user/articles" sortedColumn="created_at" 

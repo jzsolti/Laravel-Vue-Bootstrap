@@ -39,13 +39,13 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        User::factory()
+        /*User::factory()
             ->count(10)
             ->create();
 
         User::factory()
             ->count(5)
             ->unverified()
-            ->create();
+            ->create();*/
     }
 }

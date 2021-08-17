@@ -19,7 +19,7 @@
     
                             <div class="form-group">
                                 <label for="email">E-Mail</label>
-                                <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" />
+                                <input v-model.trim="form.email" type="text" class="form-control" :class="inputClass('email')" name="email" />
                                 <div class="invalid-feedback" v-if="errors.email">
                                     {{ errors.email[0] }}
                                 </div>
@@ -27,7 +27,7 @@
     
                             <div class="form-group ">
                                 <label for="password">Password</label>
-                                <input v-model.trim="form.password" type="password" class="form-control" :class="inputClass('password')" />
+                                <input v-model.trim="form.password" type="password" class="form-control" :class="inputClass('password')" name="password"/>
                                 <div class="invalid-feedback" v-if="errors.password">
                                     {{ errors.password[0] }}
                                 </div>
