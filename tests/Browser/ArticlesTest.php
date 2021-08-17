@@ -67,7 +67,6 @@ class ArticlesTest extends DuskTestCase
 
             $titleValue = $browser->inputValue('title');
 
-
             $browser->type('title', ' ') // need a single space instead of a blank string or clear method
                 ->press('form button[type="submit"]')
                 ->waitForText('Save')
