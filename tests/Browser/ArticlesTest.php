@@ -10,7 +10,7 @@ use App\Models\Article;
 class ArticlesTest extends DuskTestCase
 {
     /**
-     * @group articles_create
+     * @group article
      */
     public function testUserCanCreateArticle()
     {
@@ -46,7 +46,7 @@ class ArticlesTest extends DuskTestCase
     }
 
     /**
-     * @group article_edit
+     * @group article
      */
     public function testUserCanUpdateArticle()
     {
@@ -66,6 +66,7 @@ class ArticlesTest extends DuskTestCase
                 ->waitForText('Edit article');
 
             $titleValue = $browser->inputValue('title');
+
 
             $browser->type('title', ' ') // need a single space instead of a blank string or clear method
                 ->press('form button[type="submit"]')
