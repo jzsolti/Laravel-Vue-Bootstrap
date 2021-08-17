@@ -61,6 +61,7 @@ class ArticlesTest extends DuskTestCase
                 ->waitForText('User Account')
                 ->visit('/user/articles')
                 ->waitForText('My Articles');
+                
 
             $browser->click('tr:first-child a.btn-link')
                 ->waitForText('Edit article');
