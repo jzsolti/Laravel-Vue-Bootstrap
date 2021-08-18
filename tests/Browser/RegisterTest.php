@@ -10,10 +10,8 @@ use Illuminate\Support\Str;
 
 class RegisterTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
-     * @return void
+     /**
+     * @group registration
      */
     public function test_user_registration()
     {

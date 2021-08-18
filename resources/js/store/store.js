@@ -2,7 +2,6 @@ import { createStore } from 'vuex'
 
 const store = createStore({
     state () {
-
       return {
         isAuthenticated: localStorage.getItem('isAuthenticated') !== null
       }

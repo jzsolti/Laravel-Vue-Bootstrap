@@ -6,10 +6,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 use App\Models\User, App\Models\Article;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UserArticlesTest extends TestCase
 {
-    public function test_user__articles_index()
+    /*public function test_user__articles_index()
     {
         $users = User::has('articles')->inRandomOrder()->limit(10)->get();
         foreach ($users as $user) {
@@ -18,7 +20,7 @@ class UserArticlesTest extends TestCase
         }
     }
 
-    public function test_user__article()
+    public function test_user_article()
     {
         $user = User::has('articles')->inRandomOrder()->first();
         $response = $this->actingAs($user)->getJson('/api/user/articles/' . $user->articles->first()->id);
@@ -38,7 +40,7 @@ class UserArticlesTest extends TestCase
         $article = Article::where('user_id', '<>', $user->id)->first();
         $response = $this->actingAs($user)->deleteJson('/api/user/articles/' . $article->id);
         $response->assertStatus(404);
-    }
+    }*/
 
     /**
      * A basic test example.
@@ -49,13 +51,22 @@ class UserArticlesTest extends TestCase
     {
         $user = User::factory()->create();
         $article = Article::factory()->make(['user_id' => $user->id]);
+        $postData = $article->toArray();
 
-        $response = $this->actingAs($user)->postJson('/api/user/articles/create', $article->toArray());
+         //Storage::fake('public');
+        //$file = UploadedFile::fake()->image('test_article_image.jpg');
+        //dd($file);
+        //Storage::disk('public')->assertExists($file->hashName());
+        //$postData['image'] = $file;
+        
+
+        $response = $this->actingAs($user)->postJson('/api/user/articles/create', $postData );
 
         $response->assertStatus(200)->assertJson(fn (AssertableJson $json) => $json->whereType('id', 'integer'));
+
     }
 
-    public function test_user_update_article()
+    /*public function test_user_update_article()
     {
         $user = User::has('articles')->inRandomOrder()->first();
         $article = $user->articles->first();
@@ -74,5 +85,5 @@ class UserArticlesTest extends TestCase
         $response = $this->actingAs($user)->putJson('/api/user/articles/' . $article->id, Article::factory()->make()->toArray());
 
         $response->assertStatus(404);
-    }
+    }*/
 }

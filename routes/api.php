@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', 'App\Http\Controllers\SpaAuth\RegisterController@register');
 Route::post('login', 'App\Http\Controllers\SpaAuth\LoginController@login');
 Route::post('logout', 'App\Http\Controllers\SpaAuth\LoginController@logout');
-Route::post('user/status', 'App\Http\Controllers\SpaAuth\LoginController@loggedIn');
+Route::get('user/status', 'App\Http\Controllers\SpaAuth\LoginController@loggedIn');
 Route::post('verify/email', 'App\Http\Controllers\SpaAuth\LoginController@verifyEmail');
 Route::post('password/send-resetlink-email', 'App\Http\Controllers\SpaAuth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/confirm', ' App\Http\Controllers\SpaAuth\ForgotPasswordController@confirm');

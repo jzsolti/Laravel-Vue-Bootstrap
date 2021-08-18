@@ -51,10 +51,10 @@
                                 </div>
                                 <div class="col-md-6">
     
-                                    <ul class="list-group">
+                                    <ul class="list-group labels">
                                         <li v-for="label in labels" class="list-group-item">
                                             <input type="checkbox" :id="'label-'+label.id" v-model="form.labels" :value="label.id" />
-                                            <label :for="'label-'+label.id" class="ml-2"> {{ label.name }}</label>
+                                            <label :for="'label-'+label.id" class="ps-2"> {{ label.name }}</label>
                                         </li>
                                     </ul>
                                 </div>

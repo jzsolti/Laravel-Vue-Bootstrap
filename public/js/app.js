@@ -31803,7 +31803,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  beforeCreate: function beforeCreate() {
+    /* http://127.0.0.1:8000/user/articles
+            axios.get(`user/status`)
+                .then((response) => {
+                    if('logged_in' in response.data){
+     localStorage.setItem('isAuthenticated', 1)
+                            this.$store.commit('login')
+                    }else{
+                        localStorage.removeItem('isAuthenticated')
+                    this.$store.commit('logout')
+                    }
+                }) 
+                .catch((error) => {
+                    console.error(error);
+                });*/
+  }
+});
 
 /***/ }),
 
@@ -34266,7 +34283,7 @@ var _hoisted_22 = {
   "class": "col-md-6"
 };
 var _hoisted_23 = {
-  "class": "list-group"
+  "class": "list-group labels"
 };
 var _hoisted_24 = {
   "class": "list-group-item"
@@ -34374,7 +34391,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* PROPS */
     , ["id", "value"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.form.labels]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
       "for": 'label-' + label.id,
-      "class": "ml-2"
+      "class": "ps-2"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(label.name), 9
     /* TEXT, PROPS */
     , ["for"])]);

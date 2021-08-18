@@ -54,5 +54,24 @@
 </template>
 
 <script>
-export default {}
+export default {
+    beforeCreate(){
+        
+/* http://127.0.0.1:8000/user/articles
+        axios.get(`user/status`)
+            .then((response) => {
+                if('logged_in' in response.data){
+ localStorage.setItem('isAuthenticated', 1)
+                        this.$store.commit('login')
+                }else{
+                    localStorage.removeItem('isAuthenticated')
+                this.$store.commit('logout')
+                }
+            }) 
+            .catch((error) => {
+                console.error(error);
+            });*/
+        
+    }
+}
 </script>
