@@ -32122,9 +32122,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
     if (this.$route.params.id) {
       this.articleId = this.$route.params.id;
-      this.action = "user/articles/".concat(this.articleId);
-    } else {
-      this.action = "user/articles/create";
     }
 
     axios.get("labels").then(function (response) {
@@ -32163,7 +32160,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       imagePreView: null,
       labels: [],
       loaded: false,
-      action: '',
       form: {
         title: '',
         lead: '',
@@ -32177,6 +32173,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   computed: {
     cardHeaderText: function cardHeaderText() {
       return this.articleId != null ? 'Edit article' : 'New article';
+    },
+    action: function action() {
+      return this.articleId != null ? "user/articles/".concat(this.articleId) : "user/articles/create";
     }
   },
   methods: {
@@ -32214,21 +32213,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         }
       }).then(function (response) {
         _this2.disabled = false;
+        _this2.errors = {};
 
-        if ('id' in response.data) {
-          _this2.errors = {};
+        if ('data' in response.data && _this2.articleId == null) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
             icon: 'success',
             title: "New article created",
             timer: 1000
           });
-          _this2.articleId = response.data.id;
+          _this2.articleId = response.data.data.id;
 
-          _this2.$router.push("/user/articles/edit/".concat(response.data.id));
-        }
-
-        if ('updated' in response.data) {
-          _this2.errors = {};
+          _this2.$router.push("/user/articles/edit/".concat(response.data.data.id));
+        } else {
           sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
             icon: 'success',
             title: "Article updated",

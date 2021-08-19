@@ -46,7 +46,7 @@ class UserArticleController extends Controller
     {
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $path = Storage::disk('public')->putFile(Article::IMAGE_PATH, new File($request->image->path()));
-            $filename = str_replace(Article::IMAGE_PATH, "", $path);
+            $filename = basename($path);
         }
 
         $article = Article::create([
@@ -61,7 +61,7 @@ class UserArticleController extends Controller
             $article->labels()->attach($request->labels);
         }
 
-        return response(['id' => $article->id]);
+        return new UserArticleResource($article);
     }
 
     public function update(ArticleRequest $request, Article $article)
@@ -73,7 +73,7 @@ class UserArticleController extends Controller
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $this->deleteArticleImage($article);
             $path = Storage::disk('public')->putFile(Article::IMAGE_PATH, new File($request->image->path()));
-            $filename = str_replace(Article::IMAGE_PATH, "", $path);
+            $filename = basename($path);
         }
 
         $article->update([

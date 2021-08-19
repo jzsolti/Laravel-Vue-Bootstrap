@@ -66,8 +66,8 @@
                                     <button type="submit" class="btn btn-primary" v-if="!disabled">Save</button>
     
                                     <button class="btn btn-primary" type="button" disabled="disabled" v-if="disabled">
-                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
-                                                </button>
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Sending...</span>
+                                                    </button>
                                 </div>
                             </div>
     
@@ -91,10 +91,7 @@ export default {
     mounted() {
         if (this.$route.params.id) {
             this.articleId = this.$route.params.id;
-            this.action = `user/articles/${this.articleId}`;
-        } else {
-            this.action = `user/articles/create`;
-        }
+        } 
 
         axios.get(`labels`)
             .then((response) => {
@@ -136,7 +133,6 @@ export default {
             imagePreView: null,
             labels: [],
             loaded: false,
-            action: '',
             form: {
                 title: '',
                 lead: '',
@@ -150,6 +146,9 @@ export default {
     computed: {
         cardHeaderText() {
             return (this.articleId != null) ? 'Edit article' : 'New article'
+        },
+        action(){
+             return (this.articleId != null) ? `user/articles/${this.articleId}` : `user/articles/create`
         }
     },
     methods: {
@@ -174,20 +173,18 @@ export default {
             axios.post(this.action, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then((response) => {
                     this.disabled = false;
-                    if ('id' in response.data) {
-                        this.errors = {};
+                    this.errors = {};
+                    if ('data' in response.data && this.articleId  == null) {
                         Swal.fire({
                             icon: 'success',
                             title: `New article created`,
                             timer: 1000
                         });
-this.articleId = response.data.id;
-                        this.$router.push(`/user/articles/edit/${response.data.id}`)
-                    }
-
-                    if ('updated' in response.data) {
-                        this.errors = {};
-
+                        this.articleId = response.data.data.id;
+                       
+                        this.$router.push(`/user/articles/edit/${response.data.data.id}`)
+                    }else {
+                       
                         Swal.fire({
                             icon: 'success',
                             title: `Article updated`,

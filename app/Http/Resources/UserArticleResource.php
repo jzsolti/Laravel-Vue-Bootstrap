@@ -21,6 +21,7 @@ class UserArticleResource extends JsonResource
             'lead' => $this->lead,
             'content' => $this->content,
             'image_src' => !is_null($this->image)? Article::IMAGE_URL . $this->image : null,
+            'image' =>  $this->image,
             'created_at' => $this->created_at->format('Y-m-d'),
             'labels' => $this->labels->pluck('id')->toArray()
         ];
